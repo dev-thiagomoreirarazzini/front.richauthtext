@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,7 @@ export class LoginComponent {
   isLoading = false;
   errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private router: Router) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -35,7 +35,7 @@ export class LoginComponent {
       setTimeout(() => {
         const { email, password } = this.loginForm.value;
         if (email === 'teste@teste.com' && password === '123456') {
-          alert('Login bem-sucedido!');
+          this.router.navigate(['/home']);
         } else {
           this.errorMessage = 'Credenciais inválidas.';
         }

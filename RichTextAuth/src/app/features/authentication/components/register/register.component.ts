@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
     selector: 'app-register',
@@ -14,17 +15,33 @@ import { Router, RouterModule } from '@angular/router';
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
     registerForm: FormGroup;
     isSubmitting = false;
 
-    constructor(private fb: FormBuilder, private router: Router) {
+    constructor(
+        private fb: FormBuilder,
+        private router: Router,
+        private authService: AuthService
+    ) {
         this.registerForm = this.fb.group({
             name: ['', [Validators.required, Validators.minLength(3)]],
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required, Validators.minLength(6)]],
             confirmPassword: ['', [Validators.required]],
         });
+    }
+
+    async ngOnInit() {
+        await this.authService.initGoogleAuth();
+        this.renderGoogleButton();
+    }
+
+    private renderGoogleButton() {
+        window.google.accounts.id.renderButton(
+            document.getElementById('googleBtn')!,
+            { theme: 'outline', size: 'large', width: '100%' }
+        );
     }
 
     onSubmit() {

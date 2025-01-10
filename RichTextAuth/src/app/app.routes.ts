@@ -15,5 +15,38 @@ export const routes: Routes = [
       import('./features/authentication/components/register/register.component').then(
         (c) => c.RegisterComponent
       ),
+  },
+  {
+    path: 'home',
+    loadComponent: () =>
+      import('./features/home/home.component').then(
+        (m) => m.HomeComponent
+      ),
+    children: [
+      {
+        path: '',
+        redirectTo: 'profile',
+        pathMatch: 'full'
+      },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./features/profile/profile.component').then(
+            (m) => m.ProfileComponent
+          )
+      },
+      {
+        path: 'my-notes', loadComponent: () => import('./features/notes/my-notes.component')
+          .then(m => m.MyNotesComponent)
+      },
+      {
+        path: 'shared-notes', loadComponent: () => import('./features/notes/shared-notes.component')
+          .then(m => m.SharedNotesComponent)
+      },
+      {
+        path: 'settings', loadComponent: () => import('./features/settings/settings.component')
+          .then(m => m.SettingsComponent)
+      },
+    ]
   }
 ];

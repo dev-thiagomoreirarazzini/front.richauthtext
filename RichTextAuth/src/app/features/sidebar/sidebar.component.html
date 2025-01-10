@@ -1,0 +1,20 @@
+<div class="sidebar">
+  <app-user-profile></app-user-profile>
+
+  <nav class="menu">
+    <ul>
+      <li *ngFor="let item of menuItems">
+        <a [routerLink]="item.route" routerLinkActive="active">
+          <i class="material-icons">{{item.icon}}</i>
+          <span>{{item.label}}</span>
+        </a>
+      </li>
+      <li class="logout" (click)="logout()">
+        <a>
+          <i class="material-icons">exit_to_app</i>
+          <span>Sair</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
